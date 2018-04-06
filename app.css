@@ -16,6 +16,11 @@
   font-size:10px; 
   font-family:sans-serif;
 }
+
+.node percentComplete {
+  font-size:10px; 
+  font-family:sans-serif;
+}
  
 .link {
   fill: none;
@@ -39,4 +44,10 @@
 
 .hidden {
         display: none;
+}
+
+.node rect {
+  fill: none;
+   stroke: steelblue;
+   stroke-width: 1.5px;
 }

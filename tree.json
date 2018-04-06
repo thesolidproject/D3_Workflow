@@ -1,46 +1,71 @@
 {
     "name": "flare",
+	"type": "Produce",
     "children": [{
         "name": "analytics",
+		"type": "USDA",
         "children": [{
             "name": "cluster",
             "children": [{
                 "name": "Test Node",
-                "size": 3938
+                "size": 3938,
+				"quality": "red",
+				"type": "USDA"
+				
 				
             }, {
                 "name": "CommunityStructure",
-                "size": 3812
+                "size": 3812,
+				"quality": "red",
+				"type": "USDA"
             }, {
                 "name": "HierarchicalCluster",
-                "size": 6714
+                "size": 6714,
+				"quality": "red",
+				"type": "USDA"
             }, {
                 "name": "MergeEdge",
-                "size": 743
+                "size": 743,
+				"quality": "red",
+				"type": "USDA"
             }]
         }, {
             "name": "graph",
+			"type": "Produce",
             "children": [{
                 "name": "BetweennessCentrality",
-                "size": 3534
+                "size": 3534,
+				"quality": "red",
+				"type": "Produce"
             }, {
                 "name": "LinkDistance",
-                "size": 5731
+                "size": 5731,
+				"quality": "red",
+				"type": "USDA"
             }, {
                 "name": "MaxFlowMinCut",
-                "size": 7840
+                "size": 7840,
+				"quality": "red",
+				"type": "Produce"
             }, {
                 "name": "ShortestPaths",
-                "size": 5914
+                "size": 5914,
+				"quality": "red",
+				"type": "USDA"
             }, {
                 "name": "SpanningTree",
-                "size": 3416
+                "size": 3416,
+				"quality": "red",
+				"type": "USDA"
             }]
         }, {
             "name": "optimization",
+			"type": "RecipeIngredient",
             "children": [{
                 "name": "AspectRatioBanker",
-                "size": 7074
+                "size": 7074,
+				"quality": "red",
+				"type": "RecipeIngredient"
             }]
         }]
     }] 

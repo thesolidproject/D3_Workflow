@@ -31,6 +31,8 @@ function create_node() {
                 name = $('#CreateNodeName').val();
                 new_node = { 'name': name, 
                              'id' :  id,
+							 'quality' : quality,
+							 'type' : type,
                              'depth': create_node_parent.depth + 1,                           
                              'children': [], 
                              '_children':null 
@@ -263,6 +265,8 @@ function draw_tree(error, treeData) {
         .attr("fill", "white")
         
     baseSvg.call(zoomListener);
+	
+	
 
 
     // Define the drag listeners for drag/drop behaviour of nodes.
@@ -463,11 +467,10 @@ function draw_tree(error, treeData) {
 
     // Toggle children on click.
 
-    function click(d) {
+    function dblclick(d) {
         if (d3.event.defaultPrevented) return; // click suppressed
         d = toggleChildren(d);
         update(d);
-        centerNode(d);
     }
 
     function update(source) {
@@ -515,12 +518,13 @@ function draw_tree(error, treeData) {
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
-            .on('click', click);
+            .on('dblclick', dblclick);
 
         nodeEnter.append("circle")
             .attr('class', 'nodeCircle')
             .attr("r", 0)
             .style("fill", colorNode);
+			
 
         nodeEnter.append("text")
             .attr("x", function(d) {
@@ -532,7 +536,7 @@ function draw_tree(error, treeData) {
                 return d.children || d._children ? "end" : "start";
             })
             .text(function(d) {
-                return d.name;
+                return d.quality;
             })
             .style("fill-opacity", 0);
 
