@@ -30,9 +30,8 @@ function create_node() {
                 id = generateUUID(); 
                 name = $('#CreateNodeName').val();
                 new_node = { 'name': name, 
-                             'id' :  id,
-							 'quality' : quality,
-							 'type' : type,
+							 'quality' : "Q1",
+							 'schedule': "S1",
                              'depth': create_node_parent.depth + 1,                           
                              'children': [], 
                              '_children':null 
@@ -395,15 +394,18 @@ function draw_tree(error, treeData) {
           result = (d._children || d.children) ? "darkgray" : "lightgray";
         }
         else {
-          if (d.type == "USDA") {
-            result = (d._children || d.children) ? "orangered" : "orange";
-          } else if (d.type == "Produce") {
-            result = (d._children || d.children) ? "yellowgreen" : "yellow";
-          } else if (d.type == "RecipeIngredient") {
-            result = (d._children || d.children) ? "skyblue" : "royalblue";
-          } else {
-            result = "lightsteelblue"
-          }
+          if (d.quality == "Q1") {
+            result = "deepskyblue"
+          } else if (d.quality == "Q2") {
+            result = "springgreen"
+          } else if (d.quality == "Q3") {
+            result = "yellow"
+          } else if (d.quality ==  "Q4") {
+			  result = "crimson"
+		  }
+		  else {
+			  result = "lightsteelblue"
+		  }
         }
         return result;
     }
@@ -520,25 +522,70 @@ function draw_tree(error, treeData) {
             })
             .on('dblclick', dblclick);
 
-        nodeEnter.append("circle")
-            .attr('class', 'nodeCircle')
-            .attr("r", 0)
+		
+        nodeEnter.append("rect")
+            .attr('class', 'nodeRect')
+            .attr("x", -42)
+			.attr("y", -8)
+			.attr('width', 80)
+		    .attr('height', 15)
             .style("fill", colorNode);
 			
-
-        nodeEnter.append("text")
-            .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
-            })
-            .attr("dy", ".35em")
-            .attr('class', 'nodeText')
-            .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
-            })
-            .text(function(d) {
-                return d.quality;
-            })
-            .style("fill-opacity", 0);
+			//Add the Node Name into the Node
+			nodeEnter.append('text')
+			.attr("class", "nodeText")
+			.attr('x', -9)
+			.style('textAlign', 'left')
+			.attr('y', 1.5)
+			.attr('text-anchor', 'end')
+			.text(function(d) { return d.name; });
+			
+			
+			//Add the State Circle Into the Node
+			nodeEnter.append('circle')
+			.attr('class', 'state-schedule')
+			//.attr('y', 16)
+			.attr('cy', -0.8)
+			.attr('cx', 0)
+			.attr('r', 4)
+			.style('fill', function (d) {
+			if (d.schedule == 'S1') {
+				return 'blue';
+			} 	else if (d.schedule == 'S2') {
+				return 'lime';
+			}   else if (d.schedule == 'S3') {
+				return 'yellow';
+			} 	else if (d.schedule == 'S4') {
+				return 'red';
+			} 	else {
+				return 'white';
+			}
+			});
+			
+			//Add the Cost Visualization to the Node
+			nodeEnter.append('text')
+			.attr('class', 'state-cost')
+			.attr('y', 2)
+			.attr('x', 8)
+			.style('font-family', "FontAwesome")
+			.style('fill', 'lawngreen')
+			.style('stroke', 'black')
+			.style('stroke-width', '0.5')
+			.text(function(d){
+			if (d.cost == 'C1'){
+			return '\uf155';
+			}
+			else if (d.cost == 'C2'){
+			return '\uf155 \uf155';
+			}
+			else if (d.cost == 'C3'){
+			return '\uf155 \uf155 \uf155';
+			}
+			else if (d.cost == 'C4'){
+			return '\uf155 \uf155 \uf155 \uf155';
+			}
+			});
+		
 
         // phantom node to give us mouseover in a radius around it
         nodeEnter.append("circle")
@@ -553,21 +600,9 @@ function draw_tree(error, treeData) {
             .on("mouseout", function(node) {
                 outCircle(node);
             });
-
-        // Update the text to reflect whether node has children or not.
-        node.select('text')
-            .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
-            })
-            .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
-            })
-            .text(function(d) {
-                return d.name;
-            });
-
-        // Change the circle fill depending on whether it has children and is collapsed
-        node.select("circle.nodeCircle")
+			
+        // Change the rect fill depending on whether it has children and is collapsed
+        node.select("rect.nodeRect")
             .attr("r", 4.5)
             .style("fill", colorNode);
 
@@ -594,7 +629,7 @@ function draw_tree(error, treeData) {
             })
             .remove();
 
-        nodeExit.select("circle")
+        nodeExit.select("rect")
             .attr("r", 0);
 
         nodeExit.select("text")

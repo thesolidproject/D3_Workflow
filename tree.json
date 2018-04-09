@@ -1,71 +1,80 @@
 {
-    "name": "flare",
-	"type": "Produce",
+    "name": "Start",
+	"quality": "Q1",
+	"cost": "C2",
+	"schedule": "S1",
     "children": [{
-        "name": "analytics",
-		"type": "USDA",
+        "name": "Dev",
+		"quality": "Q3",
+		"cost": "C3",
+		"schedule": "S2",
         "children": [{
-            "name": "cluster",
+            "name": "Widget",
+			"schedule": "S1",
+			"cost": "C1",
+			"quality": "Q1",
             "children": [{
-                "name": "Test Node",
-                "size": 3938,
-				"quality": "red",
-				"type": "USDA"
-				
-				
+                "name": "Test",
+				"schedule": "S4",
+				"cost": "C4",
+				"quality": "Q1"
             }, {
-                "name": "CommunityStructure",
-                "size": 3812,
-				"quality": "red",
-				"type": "USDA"
+                "name": "119",
+				"schedule": "S4",
+				"cost": "C1",
+				"quality": "Q4"
             }, {
-                "name": "HierarchicalCluster",
-                "size": 6714,
-				"quality": "red",
-				"type": "USDA"
+                "name": "Archive",
+				"schedule": "S4",
+				"cost": "C4",
+				"quality": "Q3"
             }, {
-                "name": "MergeEdge",
-                "size": 743,
-				"quality": "red",
-				"type": "USDA"
+                "name": "Function",
+				"schedule": "S1",
+				"cost": "C1",
+				"quality": "Q1"
             }]
         }, {
-            "name": "graph",
-			"type": "Produce",
+            "name": "Circuit",
+			"quality": "Q4",
+			"cost": "C2",
+			"schedule": "S4",
             "children": [{
-                "name": "BetweennessCentrality",
-                "size": 3534,
-				"quality": "red",
-				"type": "Produce"
+                "name": "Flux",
+				"schedule": "S1",
+				"cost": "C3",
+				"quality": "Q1"
             }, {
-                "name": "LinkDistance",
-                "size": 5731,
-				"quality": "red",
-				"type": "USDA"
+                "name": "Solder",
+				"schedule": "S4",
+				"cost": "C3",
+				"quality": "Q3"
             }, {
-                "name": "MaxFlowMinCut",
-                "size": 7840,
-				"quality": "red",
-				"type": "Produce"
+                "name": "Function",
+				"schedule": "S4",
+				"cost": "C2",
+				"quality": "Q1"
             }, {
-                "name": "ShortestPaths",
-                "size": 5914,
-				"quality": "red",
-				"type": "USDA"
+                "name": "Testing",
+				"schedule": "S3",
+				"cost": "C2",
+				"quality": "Q2"
             }, {
-                "name": "SpanningTree",
-                "size": 3416,
-				"quality": "red",
-				"type": "USDA"
+                "name": "Tree",
+				"schedule": "S1",
+				"cost": "C1",
+				"quality": "Q4"
             }]
         }, {
-            "name": "optimization",
-			"type": "RecipeIngredient",
+            "name": "QA",
+			"schedule": "S2",
+			"cost": "C1",
+			"quality": "Q2",
             "children": [{
-                "name": "AspectRatioBanker",
-                "size": 7074,
-				"quality": "red",
-				"type": "RecipeIngredient"
+                "name": "848",
+				"schedule": "S2",
+				"cost": "C2",
+				"quality": "Q1"
             }]
         }]
     }] 

@@ -8,12 +8,12 @@
  
 .node circle {
   fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+  stroke: black;
+  stroke-width: 0.5px;
 }
  
 .node text {
-  font-size:10px; 
+  font-size:8px; 
   font-family:sans-serif;
 }
 
@@ -21,11 +21,12 @@
   font-size:10px; 
   font-family:sans-serif;
 }
- 
+
+
 .link {
   fill: none;
   stroke: #ccc;
-  stroke-width: 1.5px;
+  stroke-width: 0.5px;
 }
 
 .templink {
@@ -48,6 +49,19 @@
 
 .node rect {
   fill: none;
-   stroke: steelblue;
-   stroke-width: 1.5px;
+   stroke: black;
+   stroke-width: 0.5px;
+}
+
+ul, ol, dl {
+	font-size: 1.5em; 
+}
+
+.navbar-inverse .navbar-nav>li>a {
+	color: white !important;
+}
+
+.navbar-inverse .navbar-brand {
+	color: white !important;
+	font-size: 1.5em;
 }
