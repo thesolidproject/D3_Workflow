@@ -24,14 +24,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
 					<input type="text" name="user" placeholder="Username" id = 'logins'>
 					<input type="password" name="pass" placeholder="Password" id = 'pas'>
 					<input type="submit" name="login" class="login loginmodal-submit" value="Login" id = 'signin' onclick = "goIn();">
-				  </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="closebtn" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Forgot Password</button>
 		
       </div>
@@ -47,7 +45,7 @@
     </div>
    
     <ul class="nav navbar-nav navbar-right">
-      <li><a data-toggle="modal" data-target="#login-modal" href="#"><span class="glyphicon glyphicon-user"></span> Admin</a></li>
+      <li><a data-toggle="modal" data-target="#login-modal" href="#"  ><span class="glyphicon glyphicon-user"></span> Admin</a><span id="admin-mode" class="btn btn-warning">admin mode off</span></li>
     </ul>
   </div>
 </nav>
@@ -81,7 +79,7 @@
           <form id="CreateNodeForm">
             <div class="row">
               <div class="large-12 columns">
-                <label>Node name
+                <label style="font-size="18px">Node name
                   <input type="text" class="inputName" id='CreateNodeName' placeholder="node name" />
                 </label>
               </div>
@@ -98,6 +96,30 @@
           </form>
           <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
+				
+		<div id="ShowNodeDetailsModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+			<h2 id="modalTitle">Node Details</h2>
+			<div class="description-container">
+				<span class="modal-nodeID"> Node Name: </span><br>
+				<span class="modal-nodeCost">Node Cost: </span><br>
+				<span class="modal-description">Node Description: </span><br><br>
+			</div>
+            <div class="nodeMeta">
+				 <ul class="first-col">
+					<li>Status: </li>
+					<li>Rev: </li>
+					<li>Iteration: </li>
+					<li>Percent Complete: </li>
+				</ul>
+				<ul class="second-col">
+					<li>Actual Hours: </li>
+					<li>Planned Hours: </li>
+					<li>Start: </li>
+					<li>End: </li>
+				</ul>
+            </div>
+          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
 
         <div id="tree-container"></div>
 
@@ -105,7 +127,6 @@
         <script src="dndTree.js"></script>
         <script src="d3-context-menu.js"></script>
         <script src="underscore-min.js"></script>
-        <script src="jquery.js"></script>
         <script src="fastclick.js"></script>
         <script src="foundation.min.js"></script>
         <script>

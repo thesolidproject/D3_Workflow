@@ -65,3 +65,52 @@ ul, ol, dl {
 	color: white !important;
 	font-size: 1.5em;
 }
+
+.description-container {
+	font-size: 20px;
+}
+
+.large-12 columns {
+	font-size: 18px;
+}
+
+
+
+/*
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background: rgba(232, 232, 232, 0.9);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.tooltip.hidden {
+  display: none;
+}
+
+.tooltip p {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Geneva, Arial, sans-serif;
+  font-size: 16px;
+  color: #000;
+  line-height: 20px;
+}
+
+ div.tooltip {
+        position: absolute;
+        width: auto;
+        height: auto;
+        padding: 2px;
+        background: #ffff99;
+        border: solid 1px #aaa;
+        border-radius: 8px;
+ }
+ */

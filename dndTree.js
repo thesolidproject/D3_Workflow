@@ -5,8 +5,19 @@ function close_modal() {
 var tree_root;
 var create_node_modal_active = false;
 var rename_node_modal_active = false;
+var show_node_details_active = false;
 var create_node_parent = null;
 var node_to_rename = null;
+var admin_mode = false;
+
+/* Variables for the Failed Tooltip
+var tooltip = d3.selectAll(".tooltip:not(.css)");
+var HTMLabsoluteTip = d3.select("div.tooltip.absolute");
+var HTMLfixedTip = d3.select("div.tooltip.fixed");
+var HTMLmouseTip = d3.select("div.tooltip.mouse");
+var SVGexactTip = d3.select("g.tooltip.exact");
+var SVGmouseTip = d3.select("g.tooltip.mouse");
+*/
 
 function generateUUID(){
     var d = new Date().getTime();
@@ -18,7 +29,13 @@ function generateUUID(){
     return uuid;
 };
 
+function set_Admin_On()  {
+    admin_mode = true;
+    alert("Admin Mode On")
+  }
+
 function create_node() {
+    if(admin_mode) {
         if (create_node_parent && create_node_modal_active) {
                 if (create_node_parent._children != null)  {
                         create_node_parent.children = create_node_parent._children;
@@ -27,14 +44,14 @@ function create_node() {
                 if (create_node_parent.children == null) {
                         create_node_parent.children = [];
                 }
-                id = generateUUID(); 
+                id = generateUUID();
                 name = $('#CreateNodeName').val();
-                new_node = { 'name': name, 
+                new_node = { 'name': name,
 							 'quality' : "Q1",
 							 'schedule': "S1",
-                             'depth': create_node_parent.depth + 1,                           
-                             'children': [], 
-                             '_children':null 
+                             'depth': create_node_parent.depth + 1,
+                             'children': [],
+                             '_children':null
                            };
                 console.log('Create Node name: ' + name);
                 create_node_parent.children.push(new_node);
@@ -44,9 +61,15 @@ function create_node() {
         }
         close_modal();
         outer_update(create_node_parent);
+  }
+  else {
+	  alert("Need to be an Admin");
+  }
+  close_modal();
 }
 
 function rename_node() {
+  if(admin_mode) {
         if (node_to_rename && rename_node_modal_active) {
                 name = $('#RenameNodeName').val();
                 console.log('New Node name: ' + name);
@@ -56,7 +79,13 @@ function rename_node() {
         }
         close_modal();
         outer_update(node_to_rename);
+  }
+  else {
+	  alert("Need to be an Admin");
+  }
+  close_modal();
 }
+
 
 outer_update = null;
 
@@ -91,9 +120,9 @@ function draw_tree(error, treeData) {
 
     var menu = [
             {
-                    title: 'Rename node',
+                    title: 'Edit node',
                     action: function(elm, d, i) {
-                            console.log('Rename node');
+                            console.log('Edit node');
                             $("#RenameNodeName").val(d.name);
                             rename_node_modal_active = true;
                             node_to_rename = d
@@ -106,6 +135,13 @@ function draw_tree(error, treeData) {
                     action: function(elm, d, i) {
                             console.log('Delete node');
                             delete_node(d);
+                    }
+            },
+			 {
+                    title: 'Collapse/Expand node',
+                    action: function(elm, d, i) {
+                            console.log('Collapse Node');
+                            dblclick(d);
                     }
             },
             {
@@ -147,6 +183,7 @@ function draw_tree(error, treeData) {
     });
 
     function delete_node(node) {
+      if(admin_mode) {
         visit(treeData, function(d) {
                if (d.children) {
                        for (var child of d.children) {
@@ -155,17 +192,21 @@ function draw_tree(error, treeData) {
                                        update(root);
                                        break;
                                }
-                       } 
+                       }
                }
         },
         function(d) {
            return d.children && d.children.length > 0 ? d.children : null;
        });
+	   
+     }
+	  else {
+	  alert("Need to be an Admin");
+     }
     }
 
-
     // sort the tree according to the node names
-
+	/*
     function sortTree() {
         tree.sort(function(a, b) {
             return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
@@ -173,7 +214,7 @@ function draw_tree(error, treeData) {
     }
     // Sort the tree initially incase the JSON isn't in a sorted order.
     sortTree();
-
+	*/
     // TODO: Pan function, can be better implemented.
 
     function pan(domNode, direction) {
@@ -261,8 +302,10 @@ function draw_tree(error, treeData) {
     baseSvg.append("rect")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("fill", "white")
-        
+        .attr("fill", "white");
+    
+	baseSvg.append('div').attr('class', 'toolTip')  //Declare the toolTip element
+	
     baseSvg.call(zoomListener);
 	
 	
@@ -339,7 +382,7 @@ function draw_tree(error, treeData) {
                 }
                 // Make sure that the node being added to is expanded so user can see added node is correctly moved
                 expand(selectedNode);
-                sortTree();
+                //sortTree();
                 endDrag();
             } else {
                 endDrag();
@@ -474,6 +517,14 @@ function draw_tree(error, treeData) {
         d = toggleChildren(d);
         update(d);
     }
+	
+	/*
+	function openDetailsModal(d) {
+	
+		
+		show_node_details_active = true;
+		$('#ShowNodeDetailsModal').foundation('reveal', 'open').text(d.name);
+	};*/
 
     function update(source) {
         // Compute the new height, function counts total children of root node and sets tree height accordingly.
@@ -520,8 +571,115 @@ function draw_tree(error, treeData) {
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
-            .on('dblclick', dblclick);
+			
+				.on('click', function(d){
+				var modal = $('#ShowNodeDetailsModal')
+				show_node_details_active = true;
+				$('#ShowNodeDetailsModal').foundation('reveal', 'open')
+				//.size('lg')
+				//.showClose(true)
+				//$('#ShowNodeDetailsModal').titleHtml(`State Name: ` + d.name)
+					//$('#ShowNodeDetailsModal').html(`<!--<h4>State Details:</h4>-->
+					//	<div class="description-container">
+					//			<span class="modal-stateID"> State ID: ` + ' ' + d.name + `</span>
+					//			<span class="modal-stateName">` + ' ' + d.name + `</span>
+					//			<span class="modal-description">` + ' ' + d.name + `</span>
+				//		</div>
+				//		`)
+				//.open();
+				})
+	
+			
+			//.on('dblclick', dblclick)
+		
+			
+			
+			//Failed Tooltip Attempts. Not all the code should stay, was trying many methods
+			/*===============================================================================
+			d3.select("svg").select("g")
+			.selectAll("rect")
+			.on("mousenter", function () {
+			tooltip.style("opacity", "1");
+			var matrix = this.getScreenCTM().translate(+this.getAttribute("transform"),
+                         +this.getAttribute("cy"));
+        
+        
+			HTMLabsoluteTip.style("left", (window.pageXOffset + matrix.e) + "px")
+							.style("top", (window.pageYOffset + matrix.f + 30) + "px")
+			.html(
+				"<table style='font-size: 10px; font-family: sans-serif;' >"+
+				"<tr><td>Name: </td><td>"+d3.name+"</td></tr>"+
+				"<tr><td>Value: </td><td>"+d3.cost+"</td></tr>"+
+				"</table>"
+				);
+    
+			/***** For an HTML tooltip *****/ 
+      
+			//mouse coordinates relative to the page as a whole
+			//can be accessed directly from the click event object
+			//(which d3 stores as d3.event)
+			//HTMLmouseTip
+           // .style("left", Math.max(0, d3.event.pageX - 150) + "px")
+           // .style("top", (d3.event.pageY + 20) + "px");
+		
+ 
+			/*
+			.on("mouseenter", function (d) {
+				var div = d3.select("body").append("div")
+				.attr("class", "tooltip")
+				.style("opacity", 1)
+				.style("left", (d.y+840) + "px")
+				.style("top", (d.x+300) + "px")
+				.html(
+				"<table style='font-size: 10px; font-family: sans-serif;' >"+
+				"<tr><td>Name: </td><td>"+d.name+"</td></tr>"+
+				"<tr><td>Value: </td><td>"+d.cost+"</td></tr>"+
+				"</table>"
+				);
+				//if (d.parent) mouseover(d.parent);
+			})
+			
+			
+			/*.on("mousemove", function () {
+			var mouseCoords = d3.mouse(
+            SVGmouseTip.node().parent);
+            SVGmouseTip.attr("transform", "translate("
+                  + (mouseCoords[0]-10) + "," 
+                  + (mouseCoords[1] - 10) + ")");
+			})
+	
+			.on("mouseout", function () {
+				return tooltip.style("opacity", "0");
+			})
+			/*
+			.on('mouseenter', function(d) { 
+				var xPosition = source.x0;
+				var yPosition = source.y0;
 
+				d3.select('tooltip')
+				.style('left', '50')
+				.style('top', '50')
+				.style("z-index", "10")
+				.style('visibility', 'visible')
+				.select('#value')
+				.select('#cost')
+				.text(d.cost);
+
+				d3.select('tooltip').classed('hidden', false);
+      		})
+			
+			.on('mouseout', function (d) {
+				d3.select("body").selectAll('div.tooltip').remove();
+				})
+				/*
+				.on('mouseout', function() {
+				// console.log('mouseout');
+				d3.select('tooltip').classed('hidden', true);
+				})*/
+				
+				
+				
+				//End Failed ToolTip Section ====================================
 		
         nodeEnter.append("rect")
             .attr('class', 'nodeRect')
@@ -529,7 +687,9 @@ function draw_tree(error, treeData) {
 			.attr("y", -8)
 			.attr('width', 80)
 		    .attr('height', 15)
-            .style("fill", colorNode);
+				
+            .style("fill", colorNode)
+			
 			
 			//Add the Node Name into the Node
 			nodeEnter.append('text')
