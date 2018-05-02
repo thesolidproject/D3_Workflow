@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="foundation.css" />
-<link rel="stylesheet" href="app.css" />
-<link rel="stylesheet" href="d3-context-menu.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--<script type = "text/javascript" src = "NG_log-in.js"></script>-->
-<script src="jquery.js"></script>
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" >
-<script src="bootstrap/js/bootstrap.min.js" ></script>
-<link rel="stylesheet" href="bootstrap/css/bootstrap-toggle.min.css" >
-<script src="bootstrap/js/bootstrap-toggle.min.js" ></script>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="foundation.css" />
+  <link rel="stylesheet" href="app.css" />
+  <link rel="stylesheet" href="d3-context-menu.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--<script type = "text/javascript" src = "NG_log-in.js"></script>-->
+  <script src="jquery.js"></script>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" >
+  <script src="bootstrap/js/bootstrap.min.js" ></script>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap-toggle.min.css" >
+  <script src="bootstrap/js/bootstrap-toggle.min.js" ></script>
 </head>
 <body>
 <!--<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	 			<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Login to Your Account</h5>
@@ -30,19 +30,16 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="closebtn" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Forgot Password</button>
-
       </div>
     </div>
   </div>
-
-		  </div>
+</div>
 
 <nav class="navbar navbar-inverse col-xs-12" style="background-color: #0000FF" id = "titlebar">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Workflow Tree</a>
     </div>
-
     <ul class="nav navbar-nav navbar-right">
       <li><a data-toggle="modal" data-target="#login-modal" href="#"  ><span class="glyphicon glyphicon-user"></span> Admin</a><span id="admin-mode" class="btn btn-warning">admin mode off</span></li>
     </ul>
@@ -139,7 +136,7 @@
 				<span class="modal-nodeCost">Node Cost: </span><br>
 				<span class="modal-description">Node Description: </span><br><br>
 			</div>
-            <div class="nodeMeta">
+      <div class="nodeMeta">
 				 <ul class="first-col">
 					<li>Status: </li>
 					<li>Rev: </li>
@@ -152,9 +149,9 @@
 					<li>Start: </li>
 					<li>End: </li>
 				</ul>
-            </div>
-          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-        </div>
+      </div>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+      </div>
 
         <div id="tree-container"></div>
 
