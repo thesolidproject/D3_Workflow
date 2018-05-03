@@ -1,7 +1,3 @@
-function close_modal() {
-        $(document).foundation('reveal', 'close');
-}
-
 var tree_root;
 var create_node_modal_active = false;
 var rename_node_modal_active = false;
@@ -19,7 +15,7 @@ var SVGexactTip = d3.select("g.tooltip.exact");
 var SVGmouseTip = d3.select("g.tooltip.mouse");
 */
 
-function generateUUID(){
+function generateUUID() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
@@ -27,12 +23,16 @@ function generateUUID(){
         return (c=='x' ? r : (r&0x3|0x8)).toString(16);
     });
     return uuid;
-};
+}
 
-function set_Admin_On()  {
+function set_admin_on() {
     admin_mode = true;
-    alert("Admin Mode On")
+    alert("Admin Mode On");
   }
+
+function close_modal() {
+    $(document).foundation('reveal', 'close');
+}
 
 function create_node() {
     if(admin_mode) {
@@ -183,7 +183,7 @@ function draw_tree(error, treeData) {
     });
 
     function delete_node(node) {
-      if(admin_mode) {
+      if(admin_mode == true && (confirm("Are you sure you want to delete this node?") == true)) {
         visit(treeData, function(d) {
                if (d.children) {
                        for (var child of d.children) {
@@ -198,9 +198,8 @@ function draw_tree(error, treeData) {
         function(d) {
            return d.children && d.children.length > 0 ? d.children : null;
        });
-	   
      }
-	  else {
+	  else if (admin_mode == false){
 	  alert("Need to be an Admin");
      }
     }
@@ -298,17 +297,17 @@ function draw_tree(error, treeData) {
     var baseSvg = d3.select("#tree-container").append("svg")
         .attr("width", viewerWidth)
         .attr("height", viewerHeight);
-        
+
     baseSvg.append("rect")
         .attr("width", "100%")
         .attr("height", "100%")
         .attr("fill", "white");
-    
+
 	baseSvg.append('div').attr('class', 'toolTip')  //Declare the toolTip element
-	
+
     baseSvg.call(zoomListener);
-	
-	
+
+
 
 
     // Define the drag listeners for drag/drop behaviour of nodes.
@@ -517,11 +516,11 @@ function draw_tree(error, treeData) {
         d = toggleChildren(d);
         update(d);
     }
-	
+
 	/*
 	function openDetailsModal(d) {
-	
-		
+
+
 		show_node_details_active = true;
 		$('#ShowNodeDetailsModal').foundation('reveal', 'open').text(d.name);
 	};*/
@@ -543,7 +542,7 @@ function draw_tree(error, treeData) {
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
+        var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
@@ -571,7 +570,7 @@ function draw_tree(error, treeData) {
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
-			
+
 				.on('click', function(d){
 				var modal = $('#ShowNodeDetailsModal')
 				show_node_details_active = true;
@@ -588,12 +587,12 @@ function draw_tree(error, treeData) {
 				//		`)
 				//.open();
 				})
-	
-			
+
+
 			//.on('dblclick', dblclick)
-		
-			
-			
+
+
+
 			//Failed Tooltip Attempts. Not all the code should stay, was trying many methods
 			/*===============================================================================
 			d3.select("svg").select("g")
@@ -602,8 +601,8 @@ function draw_tree(error, treeData) {
 			tooltip.style("opacity", "1");
 			var matrix = this.getScreenCTM().translate(+this.getAttribute("transform"),
                          +this.getAttribute("cy"));
-        
-        
+
+
 			HTMLabsoluteTip.style("left", (window.pageXOffset + matrix.e) + "px")
 							.style("top", (window.pageYOffset + matrix.f + 30) + "px")
 			.html(
@@ -612,17 +611,17 @@ function draw_tree(error, treeData) {
 				"<tr><td>Value: </td><td>"+d3.cost+"</td></tr>"+
 				"</table>"
 				);
-    
-			/***** For an HTML tooltip *****/ 
-      
+
+			/***** For an HTML tooltip *****/
+
 			//mouse coordinates relative to the page as a whole
 			//can be accessed directly from the click event object
 			//(which d3 stores as d3.event)
 			//HTMLmouseTip
            // .style("left", Math.max(0, d3.event.pageX - 150) + "px")
            // .style("top", (d3.event.pageY + 20) + "px");
-		
- 
+
+
 			/*
 			.on("mouseenter", function (d) {
 				var div = d3.select("body").append("div")
@@ -638,21 +637,21 @@ function draw_tree(error, treeData) {
 				);
 				//if (d.parent) mouseover(d.parent);
 			})
-			
-			
+
+
 			/*.on("mousemove", function () {
 			var mouseCoords = d3.mouse(
             SVGmouseTip.node().parent);
             SVGmouseTip.attr("transform", "translate("
-                  + (mouseCoords[0]-10) + "," 
+                  + (mouseCoords[0]-10) + ","
                   + (mouseCoords[1] - 10) + ")");
 			})
-	
+
 			.on("mouseout", function () {
 				return tooltip.style("opacity", "0");
 			})
 			/*
-			.on('mouseenter', function(d) { 
+			.on('mouseenter', function(d) {
 				var xPosition = source.x0;
 				var yPosition = source.y0;
 
@@ -667,7 +666,7 @@ function draw_tree(error, treeData) {
 
 				d3.select('tooltip').classed('hidden', false);
       		})
-			
+
 			.on('mouseout', function (d) {
 				d3.select("body").selectAll('div.tooltip').remove();
 				})
@@ -676,21 +675,21 @@ function draw_tree(error, treeData) {
 				// console.log('mouseout');
 				d3.select('tooltip').classed('hidden', true);
 				})*/
-				
-				
-				
+
+
+
 				//End Failed ToolTip Section ====================================
-		
+
         nodeEnter.append("rect")
             .attr('class', 'nodeRect')
             .attr("x", -42)
 			.attr("y", -8)
 			.attr('width', 80)
 		    .attr('height', 15)
-				
+
             .style("fill", colorNode)
-			
-			
+
+
 			//Add the Node Name into the Node
 			nodeEnter.append('text')
 			.attr("class", "nodeText")
@@ -699,8 +698,8 @@ function draw_tree(error, treeData) {
 			.attr('y', 1.5)
 			.attr('text-anchor', 'end')
 			.text(function(d) { return d.name; });
-			
-			
+
+
 			//Add the State Circle Into the Node
 			nodeEnter.append('circle')
 			.attr('class', 'state-schedule')
@@ -721,7 +720,7 @@ function draw_tree(error, treeData) {
 				return 'white';
 			}
 			});
-			
+
 			//Add the Cost Visualization to the Node
 			nodeEnter.append('text')
 			.attr('class', 'state-cost')
@@ -745,7 +744,7 @@ function draw_tree(error, treeData) {
 			return '\uf155 \uf155 \uf155 \uf155';
 			}
 			});
-		
+
 
         // phantom node to give us mouseover in a radius around it
         nodeEnter.append("circle")
@@ -760,7 +759,7 @@ function draw_tree(error, treeData) {
             .on("mouseout", function(node) {
                 outCircle(node);
             });
-			
+
         // Change the rect fill depending on whether it has children and is collapsed
         node.select("rect.nodeRect")
             .attr("r", 4.5)
