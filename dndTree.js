@@ -28,7 +28,7 @@ function generateUUID() {
 function set_admin_on() {
     admin_mode = true;
     alert("Admin Mode On");
-  }
+}
 
 function close_modal() {
     $(document).foundation('reveal', 'close');
@@ -47,8 +47,8 @@ function create_node() {
                 id = generateUUID();
                 name = $('#CreateNodeName').val();
                 new_node = { 'name': name,
-							 'quality' : "Q1",
-							 'schedule': "S1",
+							               'quality' : "Q1",
+							               'schedule': "S1",
                              'depth': create_node_parent.depth + 1,
                              'children': [],
                              '_children':null
@@ -256,7 +256,7 @@ function draw_tree(error, treeData) {
         d3.select(domNode).select('.ghostCircle').attr('pointer-events', 'none');
         d3.selectAll('.ghostCircle').attr('class', 'ghostCircle show');
         d3.select(domNode).attr('class', 'node activeDrag');
-
+      if(admin_mode) {
         svgGroup.selectAll("g.node").sort(function(a, b) { // select the parent and sort the path's
             if (a.id != draggingNode.id) return 1; // a is not the hovered element, send "a" to the back
             else return -1; // a is the hovered element, bring "a" to the front
@@ -291,6 +291,7 @@ function draw_tree(error, treeData) {
         }).remove();
 
         dragStarted = null;
+      }
     }
 
     // define the baseSvg, attaching a class for styling and the zoomListener
