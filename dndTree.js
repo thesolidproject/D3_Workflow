@@ -15,6 +15,10 @@ var SVGexactTip = d3.select("g.tooltip.exact");
 var SVGmouseTip = d3.select("g.tooltip.mouse");
 */
 
+function close_modal() {
+    $(document).foundation('reveal', 'close');
+}
+
 function generateUUID() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -28,10 +32,6 @@ function generateUUID() {
 function set_admin_on() {
     admin_mode = true;
     alert("Admin Mode On");
-}
-
-function close_modal() {
-    $(document).foundation('reveal', 'close');
 }
 
 function create_node() {
@@ -118,43 +118,36 @@ function draw_tree(error, treeData) {
             return [d.y, d.x];
         });
 
-    var menu = [
-            {
-                    title: 'Edit node',
-                    action: function(elm, d, i) {
-                            console.log('Edit node');
-                            $("#RenameNodeName").val(d.name);
-                            rename_node_modal_active = true;
-                            node_to_rename = d
-                            $("#RenameNodeName").focus();
-                            $('#RenameNodeModal').foundation('reveal', 'open');
-                    }
-            },
-            {
-                    title: 'Delete node',
-                    action: function(elm, d, i) {
-                            console.log('Delete node');
-                            delete_node(d);
-                    }
-            },
-			 {
-                    title: 'Collapse/Expand node',
-                    action: function(elm, d, i) {
-                            console.log('Collapse Node');
-                            dblclick(d);
-                    }
-            },
-            {
-                    title: 'Create child node',
-                    action: function(elm, d, i) {
-                            console.log('Create child node');
-                            create_node_parent = d;
-                            create_node_modal_active = true;
-                            $('#CreateNodeModal').foundation('reveal', 'open');
-                            $('#CreateNodeName').focus();
-                    }
-            }
-    ]
+        var menu = [
+                {
+                        title: 'Edit node',
+                        action: function(elm, d, i) {
+                                console.log('Edit node');
+                                $("#RenameNodeName").val(d.name);
+                                rename_node_modal_active = true;
+                                node_to_rename = d
+                                $("#RenameNodeName").focus();
+                                $('#RenameNodeModal').foundation('reveal', 'open');
+                        }
+                },
+                {
+                        title: 'Delete node',
+                        action: function(elm, d, i) {
+                                console.log('Delete node');
+                                delete_node(d);
+                        }
+                },
+                {
+                        title: 'Create child node',
+                        action: function(elm, d, i) {
+                                console.log('Create child node');
+                                create_node_parent = d;
+                                create_node_modal_active = true;
+                                $('#CreateNodeModal').foundation('reveal', 'open');
+                                $('#CreateNodeName').focus();
+                        }
+                }
+        ]
 
 
     // A recursive helper function for performing some setup by walking through all nodes
@@ -256,7 +249,6 @@ function draw_tree(error, treeData) {
         d3.select(domNode).select('.ghostCircle').attr('pointer-events', 'none');
         d3.selectAll('.ghostCircle').attr('class', 'ghostCircle show');
         d3.select(domNode).attr('class', 'node activeDrag');
-      if(admin_mode) {
         svgGroup.selectAll("g.node").sort(function(a, b) { // select the parent and sort the path's
             if (a.id != draggingNode.id) return 1; // a is not the hovered element, send "a" to the back
             else return -1; // a is the hovered element, bring "a" to the front
@@ -291,7 +283,6 @@ function draw_tree(error, treeData) {
         }).remove();
 
         dragStarted = null;
-      }
     }
 
     // define the baseSvg, attaching a class for styling and the zoomListener
@@ -364,7 +355,7 @@ function draw_tree(error, treeData) {
                 return;
             }
             domNode = this;
-            if (selectedNode) {
+            if (selectedNode && admin_mode) {
                 // now remove the element from the parent, and insert it into the new elements children
                 var index = draggingNode.parent.children.indexOf(draggingNode);
                 if (index > -1) {
@@ -681,15 +672,13 @@ function draw_tree(error, treeData) {
 
 				//End Failed ToolTip Section ====================================
 
-        nodeEnter.append("rect")
-            .attr('class', 'nodeRect')
-            .attr("x", -42)
+      nodeEnter.append("rect")
+      .attr('class', 'nodeRect')
+      .attr("x", -42)
 			.attr("y", -8)
 			.attr('width', 80)
-		    .attr('height', 15)
-
-            .style("fill", colorNode)
-
+		  .attr('height', 15)
+      .style("fill", colorNode)
 
 			//Add the Node Name into the Node
 			nodeEnter.append('text')
@@ -699,7 +688,6 @@ function draw_tree(error, treeData) {
 			.attr('y', 1.5)
 			.attr('text-anchor', 'end')
 			.text(function(d) { return d.name; });
-
 
 			//Add the State Circle Into the Node
 			nodeEnter.append('circle')
