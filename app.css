@@ -5,23 +5,22 @@
 .overlay{
     background-color:#EEE;
 }
- 
+
 .node circle {
   fill: #fff;
   stroke: black;
   stroke-width: 0.5px;
 }
- 
+
 .node text {
-  font-size:8px; 
+  font-size:8px;
   font-family:sans-serif;
 }
 
 .node percentComplete {
-  font-size:10px; 
+  font-size:10px;
   font-family:sans-serif;
 }
-
 
 .link {
   fill: none;
@@ -54,7 +53,8 @@
 }
 
 ul, ol, dl {
-	font-size: 1.5em; 
+	font-size: 1.5em;
+  list-style-type: none;
 }
 
 .navbar-inverse .navbar-nav>li>a {
@@ -74,8 +74,21 @@ ul, ol, dl {
 	font-size: 18px;
 }
 
+#nodeMeta {
+  align-items: center;
+}
 
+.first-col {
+  float: left;
+}
 
+.second-col {
+  float: right;
+}
+
+.themeColor {
+
+}
 /*
 .tooltip {
   position: absolute;
