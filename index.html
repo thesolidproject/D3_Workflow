@@ -64,6 +64,7 @@
               $(document).ready(function(){
                 $("#bgColor").change(function(){
                   var clr = $(this).val();
+                  $("body").css("background-color",clr);
                   $("rect").css("fill",clr);
                 });
               });
