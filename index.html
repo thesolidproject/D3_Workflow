@@ -26,12 +26,12 @@
 	         <input id="adminToggle" type="checkbox" data-toggle="toggle" data-on="Admin On" data-off="Admin Off" data-onstyle="success" data-offstyle="danger">
 	         <script>
 	          $("#adminToggle").change(function(){
-	          if($(this).prop("checked") == true){
-	          set_admin_on();
-	          }else{
-            admin_mode = false;
-            alert("Admin Mode Off");
-	          }
+	             if($(this).prop("checked") == true){
+	               set_admin_on();
+	             }else{
+                 admin_mode = false;
+                 alert("Admin Mode Off");
+	             }
 	          });
           </script>
 	     </li>
@@ -64,7 +64,7 @@
               $(document).ready(function(){
                 $("#bgColor").change(function(){
                   var clr = $(this).val();
-                  $("#tree-container").css("background-color",clr);
+                  $("rect").css("fill",clr);
                 });
               });
             </script>
