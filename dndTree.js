@@ -6,19 +6,6 @@ var create_node_parent = null;
 var node_to_rename = null;
 var admin_mode = false;
 
-/* Variables for the Failed Tooltip
-var tooltip = d3.selectAll(".tooltip:not(.css)");
-var HTMLabsoluteTip = d3.select("div.tooltip.absolute");
-var HTMLfixedTip = d3.select("div.tooltip.fixed");
-var HTMLmouseTip = d3.select("div.tooltip.mouse");
-var SVGexactTip = d3.select("g.tooltip.exact");
-var SVGmouseTip = d3.select("g.tooltip.mouse");
-*/
-
-function close_modal() {
-    $(document).foundation('reveal', 'close');
-}
-
 function generateUUID() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -34,6 +21,10 @@ function set_admin_on() {
     alert("Admin Mode On");
 }
 
+function close_modal() {
+    $(document).foundation('reveal', 'close');
+}
+
 function create_node() {
     if(admin_mode) {
         if (create_node_parent && create_node_modal_active) {
@@ -47,6 +38,7 @@ function create_node() {
                 id = generateUUID();
                 name = $('#CreateNodeName').val();
                 new_node = { 'name': name,
+                             'id': id,
 							               'quality' : "Q1",
 							               'schedule': "S1",
                              'depth': create_node_parent.depth + 1,
@@ -120,9 +112,9 @@ function draw_tree(error, treeData) {
 
         var menu = [
                 {
-                        title: 'Edit node',
+                        title: 'Rename node',
                         action: function(elm, d, i) {
-                                console.log('Edit node');
+                                console.log('Rename node');
                                 $("#RenameNodeName").val(d.name);
                                 rename_node_modal_active = true;
                                 node_to_rename = d
@@ -582,95 +574,6 @@ function draw_tree(error, treeData) {
 
 
 			//.on('dblclick', dblclick)
-
-
-
-			//Failed Tooltip Attempts. Not all the code should stay, was trying many methods
-			/*===============================================================================
-			d3.select("svg").select("g")
-			.selectAll("rect")
-			.on("mousenter", function () {
-			tooltip.style("opacity", "1");
-			var matrix = this.getScreenCTM().translate(+this.getAttribute("transform"),
-                         +this.getAttribute("cy"));
-
-
-			HTMLabsoluteTip.style("left", (window.pageXOffset + matrix.e) + "px")
-							.style("top", (window.pageYOffset + matrix.f + 30) + "px")
-			.html(
-				"<table style='font-size: 10px; font-family: sans-serif;' >"+
-				"<tr><td>Name: </td><td>"+d3.name+"</td></tr>"+
-				"<tr><td>Value: </td><td>"+d3.cost+"</td></tr>"+
-				"</table>"
-				);
-
-			/***** For an HTML tooltip *****/
-
-			//mouse coordinates relative to the page as a whole
-			//can be accessed directly from the click event object
-			//(which d3 stores as d3.event)
-			//HTMLmouseTip
-           // .style("left", Math.max(0, d3.event.pageX - 150) + "px")
-           // .style("top", (d3.event.pageY + 20) + "px");
-
-
-			/*
-			.on("mouseenter", function (d) {
-				var div = d3.select("body").append("div")
-				.attr("class", "tooltip")
-				.style("opacity", 1)
-				.style("left", (d.y+840) + "px")
-				.style("top", (d.x+300) + "px")
-				.html(
-				"<table style='font-size: 10px; font-family: sans-serif;' >"+
-				"<tr><td>Name: </td><td>"+d.name+"</td></tr>"+
-				"<tr><td>Value: </td><td>"+d.cost+"</td></tr>"+
-				"</table>"
-				);
-				//if (d.parent) mouseover(d.parent);
-			})
-
-
-			/*.on("mousemove", function () {
-			var mouseCoords = d3.mouse(
-            SVGmouseTip.node().parent);
-            SVGmouseTip.attr("transform", "translate("
-                  + (mouseCoords[0]-10) + ","
-                  + (mouseCoords[1] - 10) + ")");
-			})
-
-			.on("mouseout", function () {
-				return tooltip.style("opacity", "0");
-			})
-			/*
-			.on('mouseenter', function(d) {
-				var xPosition = source.x0;
-				var yPosition = source.y0;
-
-				d3.select('tooltip')
-				.style('left', '50')
-				.style('top', '50')
-				.style("z-index", "10")
-				.style('visibility', 'visible')
-				.select('#value')
-				.select('#cost')
-				.text(d.cost);
-
-				d3.select('tooltip').classed('hidden', false);
-      		})
-
-			.on('mouseout', function (d) {
-				d3.select("body").selectAll('div.tooltip').remove();
-				})
-				/*
-				.on('mouseout', function() {
-				// console.log('mouseout');
-				d3.select('tooltip').classed('hidden', true);
-				})*/
-
-
-
-				//End Failed ToolTip Section ====================================
 
       nodeEnter.append("rect")
       .attr('class', 'nodeRect')
