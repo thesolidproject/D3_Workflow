@@ -1,4 +1,4 @@
-# Workflow Tree
+# Shop Floor Visualization
 
 ## Documentation Introduction
 
@@ -8,11 +8,11 @@
 
 ### Introduction
 
-This project was built for Northrop Grumman to display a workflow tree diagram using d3.js and json data.
+This project was built for Northrop Grumman to display a shop floor visualization using d3.js and json data.
 
 ### Project Initialization
 
-To begin, please download project files from [GitHub](https://github.com/thesolidproject/D3_Workflow).
+To begin, please download project files from [GitHub](https://github.com/thesolidproject/Shopfloor).
 
 NOTE: The project will need to be hosted on a web server which allow you to access your HTML files and will provide the structure that allows it to be displayed on a web browser.
 
@@ -30,7 +30,7 @@ Once all of the files are downloaded, please upload them to your web server.
 
 After open your preferred browser and navigate to the index.html file.
 
-`~/D3_Workflow-master/index.html`
+`~/Shopfloor-master/index.html`
 
 Option 2:
 
@@ -42,7 +42,7 @@ After downloading and installing python please open your command line or termina
 
 In your command line or terminal please change the parent working directory (PWD) to the current project's directory.
 
-`cd ~/D3_Workflow-master`
+`cd ~/Shopfloor-master`
 
 Now that the PWD is assigned, we can now initialize a local server to build the project.
 
@@ -58,7 +58,7 @@ The project should now properly execute in the browser.
 
 ### User Guides
 
-Name                   | Last Modified | Link           | Version
----------------------- | ------------- | -------------- | -------
-Development User Guide | 14 May 2017   | [link](/dev.md) | 0.1
-Standard User Guide    | 14 May 2017   | [link](/user.d) | 0.1
+Name                   | Last Modified | Link            | Version
+---------------------- | ------------- | --------------- | -------
+Development User Guide | 14 May 2017   | [link](dev.md)  | 0.1
+Standard User Guide    | 14 May 2017   | [link](user.md) | 0.1
