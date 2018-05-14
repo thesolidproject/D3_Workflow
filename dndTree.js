@@ -1,7 +1,3 @@
-function close_modal() {//closes modals (pop ups)
-    $(document).foundation('reveal', 'close');
-}
-
 var tree_root; //stores the root node of the tree
 var create_node_modal_active = false; //these modal variables are used for opening and closing the modals (pop ups)on the html page
 var rename_node_modal_active = false;
@@ -9,8 +5,6 @@ var show_node_details_active = false;
 var create_node_parent = null; //helper variable for create node
 var node_to_rename = null; //helper variable for rename node
 var admin_mode = false; //this boolean variable is used to set admin mode on or off. Functions like edit, delete, drag, and create check this variable to test permission to modify the tree
-
-
 
 function generateUUID() {//used to create a new node
     var d = new Date().getTime();
@@ -25,6 +19,10 @@ function generateUUID() {//used to create a new node
 function set_admin_on() {//this function sets the admin mode variable on or off
     admin_mode = true;
     alert("Admin Mode On");
+}
+
+function close_modal() {//closes modals (pop ups)
+    $(document).foundation('reveal', 'close');
 }
 
 function create_node() {
