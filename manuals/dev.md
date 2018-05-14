@@ -46,4 +46,4 @@ Folder Name   | Description
 ------------- | -------------------------------------------------------------------------------------------------------------------------------------------
 bootstrap/    | Bootstrap library. More info can be found [here](https://getbootstrap.com/docs/4.1/getting-started/introduction/).
 node_modules/ | NPM packages required for the project. More info can be found [here](https://docs.npmjs.com/files/folders).
-user_manual/  | User and development manuals.
+manuals/      | User and development manuals.
