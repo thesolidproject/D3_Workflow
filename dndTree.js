@@ -1,12 +1,14 @@
-var tree_root;
-var create_node_modal_active = false;
+var tree_root; //stores the root node of the tree
+var create_node_modal_active = false; //these modal variables are used for opening and closing the modals (pop ups)on the html page
 var rename_node_modal_active = false;
 var show_node_details_active = false;
-var create_node_parent = null;
-var node_to_rename = null;
-var admin_mode = false;
+var create_node_parent = null; //helper variable for create node
+var node_to_rename = null; //helper variable for rename node
+var admin_mode = false; //this boolean variable is used to set admin mode on or off. Functions like edit, delete, drag, and create check this variable to test permission to modify the tree
 
-function generateUUID() {
+
+
+function generateUUID() {//used to create a new node
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
@@ -16,17 +18,17 @@ function generateUUID() {
     return uuid;
 }
 
-function set_admin_on() {
+function set_admin_on() {//this function sets the admin mode variable on or off
     admin_mode = true;
     alert("Admin Mode On");
 }
 
-function close_modal() {
+function close_modal() {//closes modals (pop ups)
     $(document).foundation('reveal', 'close');
 }
 
 function create_node() {
-    if(admin_mode) {
+    if(admin_mode) {//check if admin
         if (create_node_parent && create_node_modal_active) {
                 if (create_node_parent._children != null)  {
                         create_node_parent.children = create_node_parent._children;
@@ -61,7 +63,7 @@ function create_node() {
 }
 
 function rename_node() {
-  if(admin_mode) {
+  if(admin_mode) {//check if admin
         if (node_to_rename && rename_node_modal_active) {
                 name = $('#RenameNodeName').val();
                 console.log('New Node name: ' + name);
@@ -81,7 +83,7 @@ function rename_node() {
 
 outer_update = null;
 
-function draw_tree(error, treeData) {
+function draw_tree(error, treeData) {//this is called upon loading the widget
 
     // Calculate total nodes, max label length
     var totalNodes = 0;
@@ -110,7 +112,7 @@ function draw_tree(error, treeData) {
             return [d.y, d.x];
         });
 
-        var menu = [
+        var menu = [//this is the "right click" context menu. Add future items to this menu array if necessary
                 {
                         title: 'Edit node',
                         action: function(elm, d, i) {
@@ -119,7 +121,7 @@ function draw_tree(error, treeData) {
                                 rename_node_modal_active = true;
                                 node_to_rename = d
                                 $("#RenameNodeName").focus();
-                                $('#RenameNodeModal').foundation('reveal', 'open');
+                                $('#RenameNodeModal').foundation('reveal', 'open');//this opens the rename node modal
                         }
                 },
                 {
@@ -135,8 +137,24 @@ function draw_tree(error, treeData) {
                                 console.log('Create child node');
                                 create_node_parent = d;
                                 create_node_modal_active = true;
-                                $('#CreateNodeModal').foundation('reveal', 'open');
+                                $('#CreateNodeModal').foundation('reveal', 'open');//this opens the create node modal
                                 $('#CreateNodeName').focus();
+                        }
+                },
+				 {
+                        title: 'Collapse Children',
+                        action: function(elm, d, i) {
+                                console.log('Collapse Children');
+                                collapse(d);
+								update(root);//update will "refresh" the tree. Without this nothing will collapse until a node is dragged
+                        }
+                },
+				 {
+                        title: 'Expand Children',
+                        action: function(elm, d, i) {
+                                console.log('Expand Children');
+                                expand(d);
+								update(root);//update will "refresh" the tree. Without this nothing will collapse until a node is dragged
                         }
                 }
         ]
@@ -189,7 +207,7 @@ function draw_tree(error, treeData) {
      }
     }
 
-    // sort the tree according to the node names
+    // sort the tree according to the node names. ********This was already put in place, but we turned it off. It is left here in the event it is a useful feature*********
 	/*
     function sortTree() {
         tree.sort(function(a, b) {
@@ -236,7 +254,7 @@ function draw_tree(error, treeData) {
     // define the zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
     var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
 
-    function initiateDrag(d, domNode) {
+    function initiateDrag(d, domNode) {//this is the ddragging function
         draggingNode = d;
         d3.select(domNode).select('.ghostCircle').attr('pointer-events', 'none');
         d3.selectAll('.ghostCircle').attr('class', 'ghostCircle show');
@@ -287,11 +305,9 @@ function draw_tree(error, treeData) {
         .attr("height", "100%")
         .attr("fill", "white");
 
-	baseSvg.append('div').attr('class', 'toolTip')  //Declare the toolTip element
+	baseSvg.append('div').attr('class', 'toolTip')  //Declare the toolTip element. Didnt get the tool tip to work yet, but we left this in the event it proves useful
 
     baseSvg.call(zoomListener);
-
-
 
 
     // Define the drag listeners for drag/drop behaviour of nodes.
@@ -336,7 +352,6 @@ function draw_tree(error, treeData) {
 
                 }
             }
-
             d.x0 += d3.event.dy;
             d.y0 += d3.event.dx;
             var node = d3.select(this);
@@ -413,13 +428,9 @@ function draw_tree(error, treeData) {
         updateTempConnector();
     };
 
-  // color a node properly
+  // color a node properly based of the JSON
   function colorNode(d) {
         result = "#fff";
-        if (d.synthetic == true) {
-          result = (d._children || d.children) ? "darkgray" : "lightgray";
-        }
-        else {
           if (d.quality == "Q1") {
             result = "deepskyblue"
           } else if (d.quality == "Q2") {
@@ -430,9 +441,8 @@ function draw_tree(error, treeData) {
 			  result = "crimson"
 		  }
 		  else {
-			  result = "lightsteelblue"
+			  result = "lightsteelblue"//default if it cant find the JSON data
 		  }
-        }
         return result;
     }
 
@@ -493,7 +503,7 @@ function draw_tree(error, treeData) {
         return d;
     }
 
-    // Toggle children on click.
+    // Toggle children on click. Currently disabled since single click opens detailed node
 
     function dblclick(d) {
         if (d3.event.defaultPrevented) return; // click suppressed
@@ -501,18 +511,11 @@ function draw_tree(error, treeData) {
         update(d);
     }
 
-	/*
-	function openDetailsModal(d) {
-
-
-		show_node_details_active = true;
-		$('#ShowNodeDetailsModal').foundation('reveal', 'open').text(d.name);
-	};*/
-
     function update(source) {
         // Compute the new height, function counts total children of root node and sets tree height accordingly.
         // This prevents the layout looking squashed when new nodes are made visible or looking sparse when nodes are removed
         // This makes the layout more consistent.
+		//This is where the distance between nodes (levels) can be modified
         var levelWidth = [1];
         var childCount = function(level, n) {
 
@@ -559,43 +562,32 @@ function draw_tree(error, treeData) {
 				var modal = $('#ShowNodeDetailsModal')
 				show_node_details_active = true;
 				$('#ShowNodeDetailsModal').foundation('reveal', 'open')
-				//.size('lg')
-				//.showClose(true)
-				//$('#ShowNodeDetailsModal').titleHtml(`State Name: ` + d.name)
-					//$('#ShowNodeDetailsModal').html(`<!--<h4>State Details:</h4>-->
-					//	<div class="description-container">
-					//			<span class="modal-stateID"> State ID: ` + ' ' + d.name + `</span>
-					//			<span class="modal-stateName">` + ' ' + d.name + `</span>
-					//			<span class="modal-description">` + ' ' + d.name + `</span>
-				//		</div>
-				//		`)
-				//.open();
 				})
 
 
-			//.on('dblclick', dblclick)
-
-      nodeEnter.append("rect")
-      .attr('class', 'nodeRect')
-      .attr("x", -42)
+			//.on('dblclick', dblclick) ********Currently turned off becuase single click opens details. Can possibly be useful later, or deleted
+	  
+			//Create a node
+			nodeEnter.append("rect")
+			.attr('class', 'nodeRect')
+			.attr("x", -42)
 			.attr("y", -8)
 			.attr('width', 80)
-		  .attr('height', 15)
-      .style("fill", colorNode)
+			.attr('height', 15)
+			.style("fill", colorNode)//call the color node function
 
 			//Add the Node Name into the Node
 			nodeEnter.append('text')
 			.attr("class", "nodeText")
-			.attr('x', -9)
+			.attr('x', -9)//this will change the position of the text inside the node
 			.style('textAlign', 'left')
-			.attr('y', 1.5)
+			.attr('y', 1.5)//this will change the position of the text inside the node
 			.attr('text-anchor', 'end')
 			.text(function(d) { return d.name; });
 
 			//Add the State Circle Into the Node
 			nodeEnter.append('circle')
 			.attr('class', 'state-schedule')
-			//.attr('y', 16)
 			.attr('cy', -0.8)
 			.attr('cx', 0)
 			.attr('r', 4)
@@ -618,13 +610,13 @@ function draw_tree(error, treeData) {
 			.attr('class', 'state-cost')
 			.attr('y', 2)
 			.attr('x', 8)
-			.style('font-family', "FontAwesome")
+			.style('font-family', "FontAwesome")//make sure font awesome css is linked in index.html
 			.style('fill', 'lawngreen')
 			.style('stroke', 'black')
 			.style('stroke-width', '0.5')
 			.text(function(d){
 			if (d.cost == 'C1'){
-			return '\uf155';
+			return '\uf155';//this is the '$' character
 			}
 			else if (d.cost == 'C2'){
 			return '\uf155 \uf155';
