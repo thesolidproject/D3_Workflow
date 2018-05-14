@@ -112,7 +112,7 @@ function draw_tree(error, treeData) {
 
         var menu = [
                 {
-                        title: 'Rename node',
+                        title: 'Edit node',
                         action: function(elm, d, i) {
                                 console.log('Rename node');
                                 $("#RenameNodeName").val(d.name);
