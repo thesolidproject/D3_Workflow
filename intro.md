@@ -60,5 +60,5 @@ The project should now properly execute in the browser.
 
 Name                   | Last Modified | Link           | Version
 ---------------------- | ------------- | -------------- | -------
-Development User Guide | 14 May 2017   | [link](dev.md) | 0.1
-Standard User Guide    | 14 May 2017   | [link](user.d) | 0.1
+Development User Guide | 14 May 2017   | [link](/dev.md) | 0.1
+Standard User Guide    | 14 May 2017   | [link](/user.d) | 0.1
