@@ -58,7 +58,7 @@ The project should now properly execute in the browser.
 
 ### User Guides
 
-Name                   | Last Modified | Link                                    | Version
----------------------- | ------------- | --------------------------------------- | -------
-Development User Guide | 14 May 2017   | [link](Development/Project_Overview.md) | 0.1
-Standard User Guide    | 14 May 2017   | [link](User/User_Outline.md)            | 0.1
+Name                   | Last Modified | Link           | Version
+---------------------- | ------------- | -------------- | -------
+Development User Guide | 14 May 2017   | [link](/dev.md) | 0.1
+Standard User Guide    | 14 May 2017   | [link](/user.d) | 0.1
